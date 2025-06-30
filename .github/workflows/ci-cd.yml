@@ -1,9 +1,10 @@
 name: CI/CD Pipeline
+
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -20,7 +21,7 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: npm test  # Ensure you have tests in package.json
+        run: npm test # Ensure you have tests in package.json
 
   build-and-scan:
     needs: test
@@ -28,6 +29,20 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      # Add Node.js setup and dependency install here for Docker build context
+      - name: Setup Node.js for Docker build
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies for Docker build context
+        run: npm ci
+
+      # >>> NEW DIAGNOSTIC STEP <<<
+      - name: Check cross-spawn version
+        run: npm list cross-spawn
+      # >>> END NEW DIAGNOSTIC STEP <<<
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -49,5 +64,3 @@ jobs:
       - name: Push to Docker Hub
         run: |
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/backend-app:${{ github.sha }}
-          docker tag ${{ secrets.DOCKER_HUB_USERNAME }}/backend-app:${{ github.sha }} ${{ secrets.DOCKER_HUB_USERNAME }}/backend-app:latest
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/backend-app:latest
