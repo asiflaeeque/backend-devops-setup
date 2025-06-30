@@ -1,5 +1,20 @@
 {
+  "name": "backend-app",
+  "version": "1.0.0",
+  "description": "A simple Node.js backend for DevOps practice",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "jest": "^30.0.3",
+    "supertest": "^7.1.1"
   }
 }
