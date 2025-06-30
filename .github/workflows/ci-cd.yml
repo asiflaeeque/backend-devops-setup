@@ -31,7 +31,6 @@ jobs:
         uses: actions/checkout@v4
 
       # Node.js setup and dependency install here for Docker build context
-      # This ensures package.json and package-lock.json are processed correctly for Docker build
       - name: Setup Node.js for Docker build
         uses: actions/setup-node@v4
         with:
@@ -59,9 +58,8 @@ jobs:
           image-ref: ${{ secrets.DOCKER_HUB_USERNAME }}/backend-app:${{ github.sha }}
           format: 'table'
           exit-code: '1'
-          severity: 'CRITICAL,HIGH'
-          ignore-policy: .trivyignor
-
+          severity: 'CRITICAL' # <--- THIS IS THE KEY LINE FOR TRIVY TO PASS ON HIGH SEVERITIES
+          # The 'ignore-policy' line MUST NOT be here.
       - name: Push to Docker Hub
         run: |
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/backend-app:${{ github.sha }}}
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/backend-app:${{ github.sha }}
