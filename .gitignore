@@ -2,3 +2,20 @@ node_modules/
 .env
 *.log
 npm-debug.log*
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+.terraform.lock.hcl
+*.tfvars
+*.tfvars.json
+
+# AWS
+.aws/
+*.env
+
+# Kubernetes
+kubeconfig
+.kube/
