@@ -1,0 +1,22 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: backend-app-alerts
+  labels:
+    release: monitoring # Must match your Prometheus stack release name
+spec:
+  groups:
+  - name: backend-app-rules
+    rules:
+    - alert: HighBackendErrorRate
+      expr: |
+        sum(rate(http_requests_total{job="backend-app", status=~"5.."}[5m]))
+        /
+        sum(rate(http_requests_total{job="backend-app"}[5m]))
+        > 0.05
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "High 5xx error rate detected on backend application"
+        description: "The 5xx error rate for the backend application is above 5% for more than 1 minute. Current rate: {{ $value | humanizePercentage }}"
