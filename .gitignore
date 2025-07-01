@@ -19,3 +19,7 @@ npm-debug.log*
 # Kubernetes
 kubeconfig
 .kube/
+ 
+# AWS CLI installation files
+aws/
+awscliv2.zip
