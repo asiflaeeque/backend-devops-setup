@@ -1,5 +1,5 @@
-#  workflow defines a Continuous Integration/Continuous Deployment (CI/CD) pipeline
-# for the backend application. It triggers on pushes to the 'main' branch.
+  workflow defines a Continuous Integration/Continuous Deployment (CI/CD) pipeline
+ for the backend application. It triggers on pushes to the 'main' branch.
 
 name: CI/CD Backend Application to EKS
 
